@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import loginLogo from '../Images/login-logo.svg'
 import loginhero from '../Images/login-hero.svg'
 import googleImg from '../Images/google.svg'
-
+import {NavLink} from 'react-router-dom'
 // import { connect } from 'react-redux'
 
 const Login = (props) => {
@@ -19,7 +19,9 @@ const Login = (props) => {
                 </Join>
 
                 <SignIn>
-                    Sign in
+                    <NavLink to={"/home"} className={"navlink"}>
+                        Sign In
+                    </NavLink>
                 </SignIn>
             </div>
         </Nav>
@@ -30,10 +32,12 @@ const Login = (props) => {
                 <img src={loginhero} alt="hero img" />
             </Hero>
             <Form>
-                <Google>
-                    <img src={googleImg} alt="google img" />
-                    Sign in With Google
-                </Google>
+                <NavLink className={"navlink"} to={"/home"}>
+                    <Google>
+                        <img src={googleImg} alt="google img" />
+                        Sign in With Google
+                    </Google>
+                </NavLink>
             </Form>
         </Section>
     </Container>
@@ -76,6 +80,7 @@ const Join = styled.a`
 
 `
 
+
 const SignIn = styled.a`
     box-shadow: inset 0 0 0 1px #0a66c2;
     color: #0a66c2;
@@ -87,6 +92,11 @@ const SignIn = styled.a`
     padding: 10px 24px;
     text-align: center;
     /* background-color: rgba(0,0,0,0); */
+
+    .navlink {
+        text-decoration: none;
+        color: #0a65c2;
+    }
 
     &:hover {
         background-color: rgba(112, 161, 249, 0.15);
@@ -161,6 +171,11 @@ const Form = styled.div`
     margin-top: 100px;
     width: 408px;
 
+    .navlink {
+        text-decoration: none;
+        color: #0a65c2;
+    }
+
     @media(max-width: 768px){
         margin-top: 20px;
     }
@@ -189,13 +204,4 @@ const Google = styled.button`
     }
 `
 
-/* const mapStateToProps = (state) => {
-    return {}
-}
-
-const mapDisPatchToProps = (dispatch) => {
-    return {}
-} */
-
-/* export default connect(mapStateToProps, mapDisPatchToProps)(Login) */
 export default Login
