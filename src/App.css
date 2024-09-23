@@ -1,0 +1,9 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.bgChange {
+    background-color: black;
+    transition-duration: 180ms;
+}
