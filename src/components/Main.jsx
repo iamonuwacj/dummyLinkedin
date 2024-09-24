@@ -3,37 +3,71 @@ import styled from 'styled-components'
 import React, { useState } from 'react'
 import userImg from '../Images/user.svg'
 import photoIcon from '../Images/photo.svg'
-import videoIcon from '../Images/feed-icon.svg'
+
+import {FaVideo} from 'react-icons/fa6'
 import eventIcon from '../Images/widget-icon.svg'
 import articleIcon from '../Images/widget-icon.svg'
 import sharedImg from '../Images/linkedin.png'
-// import eelips from '../Images/e'
 
-const properties = []
+
+
+const propertiesNew = [
+  {
+    title: "A new Day",
+    info: "The baddest guy on campus",
+    date: `${new Date().getUTCMonth()}/${new Date().getDate()}/${new Date().getUTCFullYear()}`,
+    content: "",
+    image: sharedImg
+  }
+]
 
 const Main = (props) => {
 
   const [writePost, setWritePost] = useState("")
-  const [value, setValue] = useState("")
   const [titleValue, setTitleValue] = useState([]) 
+  const [contentValue, setContentValue] = useState([])
   const [infoValue, setInfoValue] = useState([])
   const [title, setTitle] = useState([]) 
   const [info, setInfo] = useState([])
+  const [tempFile, setTempFile] = useState()
+  const [uploadFile, setUploadFile] = useState(false)
 
-  const date = new Date()
+
+  function handleFileUpload(e) {
+
+    if (uploadFile) {
+      console.log(e.target.files);
+      alert(e.target.files)
+
+      setTempFile(URL.createObjectURL(e.target.files[0]))
+    }
+
+    setUploadFile(false)
+  }
 
   function handleClick(){
 
     setTitle((prev) => [...prev, ...[titleValue]])
-    setInfo((prev) => [...prev, ...infoValue])
+    setInfo((prev) => [...prev, ...[infoValue]])
+    setContentValue((prev) => [...prev, ...[contentValue]])
+
+    // setFile(tempFile)
+
+    alert("This is file", tempFile)
+
+
+    propertiesNew.push({
+      title: title,
+      info: info,
+      content: contentValue,
+      image: tempFile,
+    })
+
     setWritePost(false)
     alert("Post Submitted")
-    getdateToday()
+    alert(contentValue)
   }
   
-  function getdateToday(){
-    properties.push(`${date.getUTCMonth()}/${date.getDate()}/${date.getUTCFullYear()}`)
-  }
   return (
     <Container>
         <ShareBox onClick={() => setWritePost(true)}>
@@ -43,12 +77,21 @@ const Main = (props) => {
           </div>
 
           <div>
-            <button>
-              <img src={photoIcon} alt="photoIcon" />
-              <span>Photo</span>
+            <button onClick={() => setUploadFile(true)}>
+              
+              {
+                uploadFile ? <input type='file' onChange={handleFileUpload}/> :
+                <div>
+                <img src={photoIcon} alt="photoIcon"/>
+                <span>Photo</span>
+                </div>
+                
+              }
+              {/* <input type="file" name="" id="" onChange={handleFileUpload} /> */}
             </button>
             <button>
-              <img src={videoIcon} alt="" />
+              {/* <img src={videoIcon} alt="" /> */}
+              <FaVideo size={40} color='' className='icons' />
               <span>Video</span>
             </button>
             <button>
@@ -62,6 +105,8 @@ const Main = (props) => {
           </div>
         </ShareBox>
 
+      
+
         {
           writePost && (
             <div className='postBlog'>
@@ -73,20 +118,79 @@ const Main = (props) => {
                 </div>
                 
                 <textarea name="startPost" 
-                  value={value} id="startPost" 
+                  value={contentValue} id="startPost" 
                   cols={10} rows={8} placeholder='write post' 
-                  onChange={(e) => setValue(e.target.value)}>
+                  onChange={(e) => setContentValue(e.target.value)}>
                   {writePost}
                 </textarea>
               
               </WritePost>
-              <button onClick={() => handleClick()}>Post</button>
+              <button onClick={handleClick}>Post</button>
               </div>
           )
         }
 
           <div>
-            <Article>
+            {
+              propertiesNew.map((post, index) => 
+                <Article key={index}>
+                    <SharedActor>
+                      <a>
+                        <img src={userImg} alt="" />
+                        <div>
+                          <span>Title: {post.title}</span>
+                          <span>Info {post.info}</span>
+                          <span>Date: {post.date}</span>
+                        </div>
+                      </a>
+                      <button>
+                        <img src={eventIcon} alt="" />
+                      </button>
+                    </SharedActor>
+                    <Description>
+                      <p>{post.content}</p>
+                    </Description>
+                    <SharedImg>
+                      <a>
+                        <img src={post.image} alt="" /> {/********************** **/}
+                      </a>
+                    </SharedImg>
+                    <SocialCounts>
+                      <li>
+                        <button>
+                          <img src={eventIcon} alt="" />
+                          <span>75</span>
+                        </button>
+                      </li>
+                      <li>
+                        <a>
+                          2 Comments
+                        </a>
+                      </li>
+                    </SocialCounts>
+                    <SocialActions>
+                      <button>
+                        <img src={eventIcon} alt="Like Icon" />
+                        <span>Like</span>
+                      </button>
+
+                      <button>
+                        <img src={eventIcon} alt="comment Icon" />
+                        <span>Comments</span>
+                      </button>
+                      <button>
+                        <img src={eventIcon} alt="share Icon" />
+                        <span>Share</span>
+                      </button>
+                      <button>
+                        <img src={eventIcon} alt="send Icon" />
+                        <span>Send</span>
+                      </button>
+                    </SocialActions>
+                </Article>
+              )
+            }
+            {/* <Article>
               <SharedActor>
                 <a>
                   <img src={userImg} alt="" />
@@ -112,8 +216,6 @@ const Main = (props) => {
                 <li>
                   <button>
                     <img src={eventIcon} alt="" />
-                    <img src={eventIcon} alt="" />
-                    
                     <span>75</span>
                   </button>
                 </li>
@@ -142,7 +244,7 @@ const Main = (props) => {
                   <span>Send</span>
                 </button>
               </SocialActions>
-            </Article>
+            </Article> */}
           </div>
     </Container>
   )
@@ -224,9 +326,11 @@ const ShareBox = styled(CommonCard)`
       padding-bottom: 4px;
 
       button {
-        img {
+        .icons {
           margin: 0 4px -2px;
+          color: #9BDAF3;
         }
+      
         span {
           color: #78b5f9;
         }
@@ -298,11 +402,17 @@ const SharedActor = styled.div`
 
 const Description = styled.div`
   padding: 0 16px;
-  overflow: hidden;
+  overflow: scroll;
   color: rgba(0, 0, 0, 0.9);
   font-size: 14px;
   text-align: left;
+  display: flex;
+  flex-wrap: nowrap;
 
+  p {
+    height: fit-content;
+    width: 100%;
+  }
 `
 
 const SharedImg =  styled.div`
@@ -328,6 +438,7 @@ const SocialCounts = styled.ul`
   padding: 8px 0;
   border-bottom: 1px solid #e9e5df;
   list-style: none;
+  justify-content: space-between;
 
   li {
     margin-right: 5px;
@@ -336,6 +447,14 @@ const SocialCounts = styled.ul`
     button {
       display: flex;
       align-items: center;
+      border: none;
+      background-color: transparent;
+
+      img {
+        border-radius: 50%;
+        /* background-color: black; */
+        margin-right: 2px;
+      }
     }
   }
 `
@@ -346,12 +465,21 @@ const SocialActions = styled.div`
   margin: 0;
   min-height: 40px;
   padding: 4px 8px;
+  justify-content: space-between;
 
   button {
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     align-items: center;
     padding: 8px;
     color: #0a66c2;
+    border: none;
+    background-color: transparent;
+
+    img {
+      
+    }
 
     @media(min-width: 768px){
       span {
