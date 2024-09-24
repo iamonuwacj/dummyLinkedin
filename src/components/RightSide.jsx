@@ -49,11 +49,14 @@ const RightSide = (props) => {
 };
 
 const Container = styled.div`
+  grid-area: rightSide;
+
+  @media(min-width: 769px) {
     position: fixed;
     width: 20%;
     right: 2%;
-  grid-area: rightSide;
-`;
+  }
+`
 
 const FollowCard = styled.div`
   text-align: center;
