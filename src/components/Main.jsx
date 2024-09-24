@@ -37,7 +37,6 @@ const Main = (props) => {
 
     if (uploadFile) {
       console.log(e.target.files);
-      alert(e.target.files)
 
       setTempFile(URL.createObjectURL(e.target.files[0]))
     }
@@ -53,7 +52,6 @@ const Main = (props) => {
 
     // setFile(tempFile)
 
-    alert("This is file", tempFile)
 
 
     propertiesNew.push({
@@ -65,7 +63,6 @@ const Main = (props) => {
 
     setWritePost(false)
     alert("Post Submitted")
-    alert(contentValue)
   }
   
   return (

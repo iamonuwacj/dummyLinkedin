@@ -49,6 +49,9 @@ const RightSide = (props) => {
 };
 
 const Container = styled.div`
+    position: fixed;
+    width: 20%;
+    right: 2%;
   grid-area: rightSide;
 `;
 
